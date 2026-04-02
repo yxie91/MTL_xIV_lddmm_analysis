@@ -30,19 +30,13 @@ Longitudinal 1.5 T structural MRI data acquired with both sagittal and coronal s
 
 Diagnostic categories of ADNI in stage 1,2 and GO included CN, SMC (Subjective Memory Concern), MCI, and LMCI (Late Mild Cognitive Impairment), as shown below. Subjects in these stages were required to have an anteriorly continuous collateral sulcus (CS). Diagnostic categories of ADNI in stage 3 and 4 included CN, SMC, EMCI (Early Mild Cognitive Impairment), MCI, LMCI and AD, and subjects in these stages were required to have at least three 3T MR scans for longitudinal comparison, with demographic data shown below. 
 
-| Dataset                       | Metric               | CN           | SMC   | MCI          | LMCI         |
-| ----------------------------- | -------------------- | ------------ | ----- | ------------ | ------------ |
-| ADNI (Stages 1, 2 & GO; n=67) | # Subjects           | 48           | 1     | 2            | 16           |
-|                               | Baseline Age (years) | 73.19 ± 5.35 | 65.10 | 75.80 ± 6.90 | 72.40 ± 6.20 |
-|                               | # Scans              | 4.58 ± 0.76  | 3.00  | 5.00 ± 2.00  | 3.94 ± 0.43  |
-|                               | Scan Range           | 3.24 ± 1.02  | 2.00  | 3.00 ± 2.00  | 1.91 ± 0.33  |
 
 | Dataset             | Metric               | CN           | SMC          | EMCI         | MCI          | LMCI         | AD           |
 | ------------------- | -------------------- | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |
-| ADNI (Stages 3 & 4) | # Subjects           | 174          | 8            | 24           | 103          | 10           | 19           |
-|                     | Baseline Age (years) | 72.94 ± 7.02 | 74.25 ± 6.34 | 75.75 ± 7.01 | 73.24 ± 7.53 | 74.30 ± 7.47 | 74.26 ± 8.52 |
-|                     | # Scans              | 3.54 ± 0.75  | 3.00 ± 0.00  | 3.88 ± 0.93  | 3.97 ± 0.98  | 3.60 ± 0.66  | 3.20 ± 0.54  |
-|                     | Scan Range           | 5.17 ± 1.67  | 2.05 ± 0.17  | 3.64 ± 1.11  | 4.48 ± 1.75  | 3.17 ± 1.10  | 2.81 ± 1.19  |
+| ADNI                | # Subjects           | 1224         | 84           | 303          | 954          | 168          | 485          |
+|                     | Baseline Age (years) | 70.46 ± 7.11 | 72.72 ± 5.75 | 71.40 ± 7.38 | 71.69 ± 7.49 | 72.55 ± 7.91 | 74.50 ± 8.46 |
+|                     | # Scans              | 4.90 ± 2.05  | 4.12 ± 1.09  | 5.73 ± 1.89  | 4.90 ± 2.29  | 5.06 ± 1.63  | 3.74 ± 0.70  |
+|                     | Scan Range           | 5.69 ± 3.45  | 4.01 ± 2.28  | 3.95 ± 2.70  | 4.87 ± 3.43  | 2.95 ± 2.16  | 1.52 ± 0.91  |
 
 Directories for T1 and PET images after preprocessing in both datasets are summarized in table below, with shape of (170, 256, 256) and resolution $1.2 \times 1 \times 1\ $mm$^3$ for T1 images:
 
