@@ -176,7 +176,7 @@ Codes for mapping inner surfaces to outer surtfaces and template mapping of popu
 
 |                          Directory                           |                          Decription                          |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
-|     ThicknessCalculations/runYounesRegistration_ADNI.sh      | run the surface registration by ./runYounesRegistration_ADNI.sh -s 0 -i Data/ADNI_Surface/cutted_surfaces/ -o Data/ADNI_Surface/mappedsurfaces/ -f all |
+|     ThicknessCalculations/runYounesRegistration_ADNI.sh      | run the surface registration by bash ThicknessCalculations/runYounesRegistration_ADNI.sh -s 0 -i Data/ADNI_Surface/cutted_surfaces/ -o Data/ADNI_Surface/mappedsurfaces/ -f all |
 | ThicknessCalculations/population_mapping_scripts/AdniMappings.py |           Population template generation for ADNI            |
 | ThicknessCalculations/population_mapping_scripts/BiocardNarrowMap.py |      Population template generation for BIOCARD narrow       |
 | ThicknessCalculations/population_mapping_scripts/BiocardWideMap.py |       Population template generation for BIOCARD wide        |
