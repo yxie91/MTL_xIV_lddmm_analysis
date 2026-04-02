@@ -4,6 +4,7 @@
 This is a repository of codes for Figures and Tables for paper "Rostral Associations of MRI Atrophy of the Amygdala and Entorhinal Cortex Across the AD Spectrum" (https://doi.org/10.64898/2026.01.27.26344987). It was developed for examining associations of atrophy in the amygdala, entorhinal cortex and hippocampus based on magnetic resonance imaging (MRI) and Positron Emission Tomography (PET) from two independent cohorts: Alzheimer’s Disease Neuroimaging Initiative (ADNI) and Biomarkers of Cognitive Decline Among Normal Individuals (BIOCARD) study. It includes longitudinal analysis of volume atrophy in amygdala, ERC/TEC and hippocampus.
 
 ## Setup
+Root directory for all codes, figures and results are in /cis/home/yxie91/paper2025
 
 The package required to run codes in this repository can be found in  - /cis/home/yxie91/paper2025/environment.yml.  
 
