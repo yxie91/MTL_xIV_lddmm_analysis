@@ -48,75 +48,8 @@ For MTL label segmentation, the 3D full-resolution configuration used a $112\tim
 | # Subjects                   | 67   | 107     |
 | # of time points per subject | 4.39 | 3.47    |
 
-The manual and predicted segmentations in BIOCARD dataset are summarized below.
-
-|  Dataset   |                   Directory                   |                         Description                          |
-| :--------: | :-------------------------------------------: | :----------------------------------------------------------: |
-| BIOCARD 3T |        Data/Dataset006_axis0/imagesTr         |           Ground truth T1 images used for training           |
-|            |        Data/Dataset006_axis0/labelsTr         |             Manual segmentation, Left Hemisphere             |
-|            |     Data/Dataset006_axis0/imagesTs_mprage     |               test images used for prediction                |
-|            |  Data/Dataset006_axis0/imagesTs_pred_mprage   |       Segmentation of the test images, left Hemisphere       |
-|            |    Data/Dataset006_axis0/imagesTs_pred_RH     |      Segmentation of the test images, right Hemisphere       |
-|            |   Data/Dataset006_axis0/imagesTs_pred_fuse    | Segmentation of the test images, left and right Hemisphere fused |
-|            | Data/Sheets/control_SUBJECT_DOB_multiple.xlsx | Subject, Diagnosis and Date of birth (DOB) of control subjects |
-|            | Data/Sheets/MCIDEM_SUBJECT_DOB_multiple.xlsx  | Subject, Diagnosis and Date of birth (DOB) of MCI/AD subjects |
-|            |        Data/Sheets/SUBJECT_TP_PET.xlsx        |        Timepoints for each subject in format *yymmdd*        |
-
-For 1.5T BIOCARD T1 images, the preprocessing resampled them into $1.2 \times 1 \times 1\ $mm$^3$, the resolution as 3T BIOCARD. And we use the model trained on 3T images to predict 1.5T data: 
-
-|                 Dataset                  |                Directory                 |                         Description                          |
-| :--------------------------------------: | :--------------------------------------: | :----------------------------------------------------------: |
-|      BIOCARD 1.5T, sagittal slicing      |   Data/Dataset006_axis0/imagesTs_15mm    |               test images used for prediction                |
-| $1.5 \times 0.9375 \times 0.9375$ mm$^3$ |   Data/Dataset006_axis0/labelsTs_15mm    |       Segmentation of the test images, left Hemisphere       |
-|                                          |  Data/Dataset006_axis0/labelsTs_15mm_RH  |      Segmentation of the test images, right Hemisphere       |
-|                                          | Data/Dataset006_axis0/labelsTs_15mm_fuse | Segmentation of the test images, left and right Hemisphere fused |
-|                                          |     Data/Sheets/Demographic_15T.csv      |              Demographic data (DOB, Diagnosis)               |
-|                                          | Data/Sheets/set2a_acquisition_dates.csv  |      Acquisition date for each scan in format *yymmdd*       |
-|                                          |        Data/Sheets/15Outlier.xlsx        |         Scan outliers selected by visual validation          |
-
-|                 Dataset                  |                Directory                 |                         Description                          |
-| :--------------------------------------: | :--------------------------------------: | :----------------------------------------------------------: |
-|      BIOCARD 1.5T, sagittal slicing      |   Data/Dataset006_axis0/imagesTs_20mm    |               test images used for prediction                |
-| $0.9375 \times 2.0 \times 0.9375$ mm$^3$ |   Data/Dataset006_axis0/labelsTs_20mm    |       Segmentation of the test images, left Hemisphere       |
-|                                          |  Data/Dataset006_axis0/labelsTs_20mm_RH  |      Segmentation of the test images, right Hemisphere       |
-|                                          | Data/Dataset006_axis0/labelsTs_20mm_fuse | Segmentation of the test images, left and right Hemisphere fused |
-|                                          |     Data/Sheets/Demographic_20T.csv      |              Demographic data (DOB, Diagnosis)               |
-|                                          | Data/Sheets/set2b_acquisition_dates.csv  |      Acquisition date for each scan in format *yymmdd*       |
-|                                          |        Data/Sheets/20Outlier.xlsx        |         Scan outliers selected by visual validation          |
-
-The manual and predicted segmentations in ADNI dataset are summarized below.
-
-|    Dataset     |               Directory               |                         Description                          |
-| :------------: | :-----------------------------------: | :----------------------------------------------------------: |
-| ADNI 1, 2 & GO |   Data/Dataset103_ADNIall/imagesTr    |           Ground truth T1 images used for training           |
-|                |   Data/Dataset103_ADNIall/labelsTr    |             Manual segmentation, Left Hemisphere             |
-|                |   Data/Dataset103_ADNIall/imagesTs    |               test images used for prediction                |
-|                |   Data/Dataset103_ADNIall/labelsTs    |       Segmentation of the test images, left Hemisphere       |
-|                |  Data/Dataset103_ADNIall/labelsTs_RH  |      Segmentation of the test images, right Hemisphere       |
-|                | Data/Dataset103_ADNIall/labelsTs_fuse | Segmentation of the test images, left and right Hemisphere fused |
-|                |  Data/Sheets/rawthk_v13_kms_con.mat   |  Subset of subject and age information for control subjects  |
-|                |  Data/Sheets/rawthk_v13_kms_pre.mat   |  Subset of subject and age information for control subjects  |
-|                |  Data/Sheets/rawthk_v13_kms_mci.mat   |    Subset of subject and age information for MCI subjects    |
-
-For 3T ADNI 3, 4 T1 images, the preprocessing resampled them into $1.2 \times 1 \times 1\ $mm$^3$, the resolution as 3T images in ADNI 1, 2 & GO. And we use the same model to predict ADNI 3, 4 data: 
-
-|  Dataset  |               Directory                |                          Decription                          |
-| :-------: | :------------------------------------: | :----------------------------------------------------------: |
-| ADNI 3, 4 |    Data/Dataset102_ADNI34/imagesTs     |               test images used for prediction                |
-|           |    Data/Dataset102_ADNI34/labelsTs     |       Segmentation of the test images, left Hemisphere       |
-|           |   Data/Dataset102_ADNI34/labelsTs_RH   |      Segmentation of the test images, right Hemisphere       |
-|           |  Data/Dataset102_ADNI34/labelsTs_fuse  | Segmentation of the test images, left and right Hemisphere fused |
-|           | Data/Sheets/ADNI34_MPRAGE_metadata.csv | Demographic data (disease group, sex age, acquisition date)  |
-|           |     Data/Sheets/ADNI34Outlier.xlsx     |         Scan outliers selected by visual validation          |
-
 For Figure 5, use *Code/F5_overlap_seg.py* to generate the combined version manual and predicted segmentation, we can use ITK-SNAP to visualize with color code *Data/Sheets/itksnap_colorcode.txt*. 
 
-MRICloud segmentation of ADNI and BIOCARD data can be found below:
-
-|       Directory       |                   Decription                   |
-| :-------------------: | :--------------------------------------------: |
-| Data/MRICloud_ADNI34  | MRICloud segmentation of a subset in ADNI 3, 4 |
-| Data/MRICloud_BIOCARD |  MRICloud segmentation of a subset in BIOCARD  |
 
 ## Atrophy calculation
 
