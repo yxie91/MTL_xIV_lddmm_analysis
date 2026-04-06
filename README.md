@@ -1,7 +1,7 @@
 # MTL_xIV_lddmm_analysis
 # Rostral Associations of MRI Atrophy of the Amygdala and Entorhinal Cortex Across the AD Spectrum
 
-This is a repository of codes for paper "Rostral Associations of MRI Atrophy of the Amygdala and Entorhinal Cortex Across the AD Spectrum" (https://doi.org/10.64898/2026.01.27.26344987). It was developed for examining associations of atrophy in the amygdala, entorhinal cortex and hippocampus based on magnetic resonance imaging (MRI) and Positron Emission Tomography (PET) from two independent cohorts: Alzheimer’s Disease Neuroimaging Initiative (ADNI) and Biomarkers of Cognitive Decline Among Normal Individuals (BIOCARD) study. It includes longitudinal analysis of volume atrophy in amygdala, ERC/TEC and hippocampus, ERC/TEC cortical thickness reconstruction, amygdala subnuclei analysis, and a correlation study between Tau PET SUVR and volume atrophy rate.
+This repository contains code for the paper "Rostral Associations of MRI Atrophy of the Amygdala and Entorhinal Cortex Across the AD Spectrum" (https://doi.org/10.64898/2026.01.27.26344987). It was developed to examine associations between atrophy in the amygdala, entorhinal cortex, and hippocampus, based on magnetic resonance imaging (MRI) and Positron Emission Tomography (PET) from two independent cohorts: the Alzheimer’s Disease Neuroimaging Initiative (ADNI) and the Biomarkers of Cognitive Decline Among Normal Individuals (BIOCARD) study. It includes longitudinal analysis of volume atrophy in the amygdala, ERC/TEC, and hippocampus, ERC/TEC cortical thickness reconstruction, amygdala subnuclei analysis, and a correlation study between Tau PET SUVR and volume atrophy rate.
 
 ## Setup
 For CIS \(Center for Imaging Science\) users at Johns Hopkins University, the root directory for all codes, figures, and results is in /cis/home/yxie91/paper2025.
@@ -10,13 +10,13 @@ The package required to run codes in this repository can be found in /cis/home/y
 
 You can also clone the environment by conda create --name my_env --clone /cis/home/yxie91/.conda/envs/DR/. 
 
-For non-CIS users, please use environment.yml for dependency installation.
+For non-CIS users, please use environment.yml to install required packages.
 
 Codes starting with *Fi_...* mean that Figure i in paper is generated using the python files. For example, 6x6 T1 collage is generated from *Code/F1_T1collage.py*; Figure 6 is generated from *Code/F6_LRVA_ADNI12GO.py* and *Code/F6_LRVA_BIOCARD.py*. Once you get access to the root directory, you can run the python files and get the figures as in papers. The visualization of the images and segmentations involves mainly two softwares: [ITK-SNAP](https://www.itksnap.org/pmwiki/pmwiki.php) and [PARAVIEW](https://www.paraview.org/).
 
 ## Imaging data
 
-Participants in BIOCARD study were categorized into four diagnostic groups based on longitudinal clinical evaluations: cognitively normal (CN), impaired not MCI, MCI, and AD. Subjects in all groups were required to have at least three 3T MR scans for longitudinal comparison. Demographic summaries, including baseline age, scan count, and follow-up duration, are provided below:
+Participants in the BIOCARD study were categorized into four diagnostic groups based on longitudinal clinical evaluations: cognitively normal (CN), impaired not MCI, MCI, and AD. Subjects in all groups were required to have at least three 3T MR scans for longitudinal comparison. Demographic summaries, including baseline age, scan count, and follow-up duration, are provided below:
 
 | Dataset         | Metric               | Normal       | Impaired (not MCI) | MCI          | Dementia     |
 | --------------- | -------------------- | ------------ | ------------------ | ------------ | ------------ |
