@@ -25,9 +25,9 @@ Participants in the BIOCARD study were categorized into four diagnostic groups b
 |                 | # Scans              | 3.73 ± 0.60  | 3.80 ± 0.78        | 3.68 ± 0.69  | 3.38 ± 0.48  |
 |                 | Scan Range           | 6.67 ± 1.29  | 6.90 ± 1.55        | 6.55 ± 1.60  | 5.75 ± 1.64  |
 
-Longitudinal 1.5 T structural MRI data acquired with both sagittal and coronal slice orientations were additionally used to validate the robustness of the estimated atrophy-rate patterns. Sagittal acquisitions had a voxel resolution of $1.5 \times 0.9375 \times 0.9375 mm^3$, while coronal acquisitions had a voxel resolution of $0.9375 \times 2.0 \times 0.9375 mm^3$. Detailed acquisition parameters for these scans have been previously reported [here](https://pubmed.ncbi.nlm.nih.gov/25101236/).
+Longitudinal 1.5 T structural MRI data acquired with both sagittal and coronal slice orientations were additionally used to validate the robustness of the estimated atrophy-rate patterns. Sagittal acquisitions had a voxel resolution of $1.5 \times 0.9375 \times 0.9375\space mm^3$, while coronal acquisitions had a voxel resolution of $0.9375 \times 2.0 \times 0.9375\space mm^3$. Detailed acquisition parameters for these scans have been previously reported [here](https://pubmed.ncbi.nlm.nih.gov/25101236/).
 
-Diagnostic categories of ADNI in stage 1,2 and GO included CN, SMC (Subjective Memory Concern), MCI, and LMCI (Late Mild Cognitive Impairment), as shown below. Subjects in these stages were required to have an anteriorly continuous collateral sulcus (CS). Diagnostic categories of ADNI in stage 3 and 4 included CN, SMC, EMCI (Early Mild Cognitive Impairment), MCI, LMCI and AD, and subjects in these stages were required to have at least three 3T MR scans for longitudinal comparison, with demographic data shown below. 
+Diagnoses of the participants in the ADNI dataset are grouped into  Control, which contains CN and SMC (Subjective Memory Concern); MCI, which consists of EMCI (Early Mild Cognitive Impairment), MCI and LMCI (Late Mild Cognitive Impairment); and AD, as shown below. Subjects were required to have at least three 3T MR scans for longitudinal comparison.
 
 
 | Dataset             | Metric               | CN           | SMC          | EMCI         | MCI          | LMCI         | AD           |
