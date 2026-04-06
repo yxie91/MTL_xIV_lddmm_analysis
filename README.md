@@ -1,18 +1,16 @@
 # MTL_xIV_lddmm_analysis
 # Rostral Associations of MRI Atrophy of the Amygdala and Entorhinal Cortex Across the AD Spectrum
 
-This is a repository of codes for Figures and Tables for paper "Rostral Associations of MRI Atrophy of the Amygdala and Entorhinal Cortex Across the AD Spectrum" (https://doi.org/10.64898/2026.01.27.26344987). It was developed for examining associations of atrophy in the amygdala, entorhinal cortex and hippocampus based on magnetic resonance imaging (MRI) and Positron Emission Tomography (PET) from two independent cohorts: Alzheimer’s Disease Neuroimaging Initiative (ADNI) and Biomarkers of Cognitive Decline Among Normal Individuals (BIOCARD) study. It includes longitudinal analysis of volume atrophy in amygdala, ERC/TEC and hippocampus.
+This is a repository of codes for paper "Rostral Associations of MRI Atrophy of the Amygdala and Entorhinal Cortex Across the AD Spectrum" (https://doi.org/10.64898/2026.01.27.26344987). It was developed for examining associations of atrophy in the amygdala, entorhinal cortex and hippocampus based on magnetic resonance imaging (MRI) and Positron Emission Tomography (PET) from two independent cohorts: Alzheimer’s Disease Neuroimaging Initiative (ADNI) and Biomarkers of Cognitive Decline Among Normal Individuals (BIOCARD) study. It includes longitudinal analysis of volume atrophy in amygdala, ERC/TEC and hippocampus, ERC/TEC cortical thickness reconstruction, amygdala subnuclei analysis, and a correlation study between Tau PET SUVR and volume atrophy rate.
 
 ## Setup
-Root directory for all codes, figures and results are in /cis/home/yxie91/paper2025
+For CIS \(Center for Imaging Science\) users at Johns Hopkins University, the root directory for all codes, figures, and results is in /cis/home/yxie91/paper2025.
 
-The package required to run codes in this repository can be found in  - /cis/home/yxie91/paper2025/environment.yml.  
+The package required to run codes in this repository can be found in /cis/home/yxie91/paper2025/environment.yml.  
 
-You can also you can clone the environment I use by conda create --name my_env --clone /cis/home/yxie91/.conda/envs/DR/. 
+You can also clone the environment by conda create --name my_env --clone /cis/home/yxie91/.conda/envs/DR/. 
 
-You need to copy /cis/home/yxie91/paper2025 into your root folder by cp -r /cis/home/yxie91/paper2025 your_destination_folder. 
-
-When running the codes, first cd /yourrootfolder/paper2025, and run the codes with /cis/home/username/.conda/envs/DR/bin/python3.9 python file
+For non-CIS users, please use environment.yml for dependency installation.
 
 Codes starting with *Fi_...* mean that Figure i in paper is generated using the python files. For example, 6x6 T1 collage is generated from *Code/F1_T1collage.py*; Figure 6 is generated from *Code/F6_LRVA_ADNI12GO.py* and *Code/F6_LRVA_BIOCARD.py*. Once you get access to the root directory, you can run the python files and get the figures as in papers. The visualization of the images and segmentations involves mainly two softwares: [ITK-SNAP](https://www.itksnap.org/pmwiki/pmwiki.php) and [PARAVIEW](https://www.paraview.org/).
 
