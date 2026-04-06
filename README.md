@@ -7,13 +7,7 @@ This repository contains code for the paper "Rostral Associations of MRI Atrophy
 This repository does not include any imaging data from ADNI or BIOCARD due to data usage agreements. These datasets are publicly available but require registration and approval through their respective portals.
 
 ## Setup
-For CIS \(Center for Imaging Science\) users at Johns Hopkins University, the root directory for all codes, figures, and results is in /cis/home/yxie91/paper2025.
-
-The package required to run codes in this repository can be found in /cis/home/yxie91/paper2025/environment.yml.  
-
-You can also clone the environment by conda create --name my_env --clone /cis/home/yxie91/.conda/envs/DR/. 
-
-For non-CIS users, please use environment.yml to install required packages.
+Please use environment.yml to install required packages.
 
 Codes starting with *Fi_...* mean that Figure i in the paper is generated using the Python files. For example, 6x6 T1 collage is generated from *Code/F1_T1collage.py*; Figure 6 is generated from *Code/F6_LRVA_ADNI12GO.py* and *Code/F6_LRVA_BIOCARD.py*. Once you get access to the root directory, you can run the Python files and get the figures as in the papers. The visualization of the images and segmentations involves mainly two software: [ITK-SNAP](https://www.itksnap.org/pmwiki/pmwiki.php) and [PARAVIEW](https://www.paraview.org/).
 
@@ -40,28 +34,13 @@ Diagnoses of the participants in the ADNI dataset are grouped into  Control, whi
 |                     | # Scans              | 4.90 ± 2.05  | 4.12 ± 1.09  | 5.73 ± 1.89  | 4.90 ± 2.29  | 5.06 ± 1.63  | 3.74 ± 0.70  |
 |                     | Scan Range           | 5.69 ± 3.45  | 4.01 ± 2.28  | 3.95 ± 2.70  | 4.87 ± 3.43  | 2.95 ± 2.16  | 1.52 ± 0.91  |
 
-Directories for T1 and PET images after preprocessing in both datasets are summarized in the table below, with shape of (170, 256, 256) and resolution $1.2 \times 1 \times 1\space mm^3$ for T1 images:
-
-|    Dataset     |               Directory               |                         Description                          |
-| :------------: | :-----------------------------------: | :----------------------------------------------------------: |
-|    BIOCARD     | Data/Dataset006_axis0/imagesTs_mprage |                   T1 images in BIOCARD 3T                    |
-|                |  Data/Dataset006_axis0/imagesTs_15mm  |         T1 images in BIOCARD 1.5T, sagittal slicing          |
-|                |  Data/Dataset006_axis0/imagesTs_20mm  |          T1 images in BIOCARD 1.5T, coronal slicing          |
-|                |           Data/04_pet_nii_a           | Sub-folder 1 of tau ($^{18}$F-MK6240) and amyloid ($^{11}$C-PiB) images |
-|                |           Data/04_pet_nii_b           | Sub-folder 3 of tau ($^{18}$F-MK6240) and amyloid ($^{11}$C-PiB) images |
-|                |        Data/04_pet_nii_a_94pib        |        Sub-folder 2 of amyloid ($^{11}$C-PiB) images         |
-| ADNI 1, 2 & GO |   Data/Dataset103_ADNIall/imagesTs    |                 T1 images in ADNI 1, 2 & GO                  |
-|   ADNI 3, 4    |    Data/Dataset102_ADNI34/imagesTs    |                    T1 images in ADNI 3, 4                    |
-|                |          Data/05_pet_niigz1           | Tau ([$^{18}$F]AV-1451) and amyloid ([$^{18}$F]AV-45 ) images |
-
 ## MTL segmentation
 
-Automated segmentation of five medial temporal lobe (MTL) structures –amygdala, ERC, TEC, anterior hippocampus (HA), and posterior hippocampus (HP) – was performed on T1-weighted 3T MRI using a combination of deep learning and atlas-based methods. Specifically, ASHS was used to delineate HA and HP subfields. Combined with manual segmentations
-of amygdala, ERC, and TEC, such delineations served as ground truth for training.
+Automated segmentation of five medial temporal lobe (MTL) structures - Amygdala, ERC, TEC, Anterior Hippocampus (HA), and Posterior Hippocampus (HP) – was performed on T1-weighted 3T MRI using a combination of deep learning and atlas-based methods. Specifically, ASHS was used to delineate HA and HP subfields. Combined with manual segmentations of amygdala, ERC, and TEC, such delineations served as ground truth for training.
 
 Segmented images were used in developing a self-configuring deep convolutional neural network called nnU-Net. nnUNet automatically configures the entire segmentation pipeline — including preprocessing, network architecture, training schedule, data augmentation, and postprocessing — based solely on the properties of the training dataset. It builds upon a 3D U-Net backbone but adapts key hyperparameters and architectural components to match the data characteristics, enabling state-of-the-art performance without manual tuning. 
 
-The model was separately trained on 294 ADNI scans and 371 BIOCARD scans (Table 1), with an 80:20 train/test split and 5-fold cross-validation to assess performance. All models incorporated focal loss to address class imbalance. For the training and validation using nnUNet, click [nnU-Net](https://github.com/MIC-DKFZ/nnUNet) for more information.
+For MTL label segmentation, the 3D full-resolution configuration used a $112\times128\times160$ patch size with batch size=2 at $1.2\times1\times1$ mm$^3$. The manual segmentation was partitioned into training and testing subsets using a $90:10$ split. The training objective combined focal loss, cross-entropy loss, and Dice loss into a unified loss function for optimization. To enable dual-hemisphere prediction, flip augmentation was disabled during training, and all manual segmentations were standardized to a single hemisphere (left hemisphere for ADNI and right hemisphere for BIOCARD). During inference, both the original and left–right flipped images were processed by the model. The resulting segmentations were then mapped back and fused to obtain a dual-hemisphere medial temporal lobe (MTL) segmentation. The held-out test set was used exclusively for final performance assessment with baseline methods, including MRICloud, FreeSurfer, and ASHS. For the training and validation using nnUNet, click [nnU-Net](https://github.com/MIC-DKFZ/nnUNet) for more information. 
 
 |                              | ADNI | BIOCARD |
 | ---------------------------- | ---- | ------- |
