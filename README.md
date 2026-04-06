@@ -3,6 +3,9 @@
 
 This repository contains code for the paper "Rostral Associations of MRI Atrophy of the Amygdala and Entorhinal Cortex Across the AD Spectrum" (https://doi.org/10.64898/2026.01.27.26344987). It was developed to examine associations between atrophy in the amygdala, entorhinal cortex, and hippocampus, based on magnetic resonance imaging (MRI) and Positron Emission Tomography (PET) from two independent cohorts: the Alzheimer’s Disease Neuroimaging Initiative (ADNI) and the Biomarkers of Cognitive Decline Among Normal Individuals (BIOCARD) study. It includes longitudinal analysis of volume atrophy in the amygdala, ERC/TEC, and hippocampus, ERC/TEC cortical thickness reconstruction, amygdala subnuclei analysis, and a correlation study between Tau PET SUVR and volume atrophy rate.
 
+## Data Availability
+This repository does not include any imaging data from ADNI or BIOCARD due to data usage agreements. These datasets are publicly available but require registration and approval through their respective portals.
+
 ## Setup
 For CIS \(Center for Imaging Science\) users at Johns Hopkins University, the root directory for all codes, figures, and results is in /cis/home/yxie91/paper2025.
 
@@ -12,7 +15,7 @@ You can also clone the environment by conda create --name my_env --clone /cis/ho
 
 For non-CIS users, please use environment.yml to install required packages.
 
-Codes starting with *Fi_...* mean that Figure i in paper is generated using the python files. For example, 6x6 T1 collage is generated from *Code/F1_T1collage.py*; Figure 6 is generated from *Code/F6_LRVA_ADNI12GO.py* and *Code/F6_LRVA_BIOCARD.py*. Once you get access to the root directory, you can run the python files and get the figures as in papers. The visualization of the images and segmentations involves mainly two softwares: [ITK-SNAP](https://www.itksnap.org/pmwiki/pmwiki.php) and [PARAVIEW](https://www.paraview.org/).
+Codes starting with *Fi_...* mean that Figure i in the paper is generated using the Python files. For example, 6x6 T1 collage is generated from *Code/F1_T1collage.py*; Figure 6 is generated from *Code/F6_LRVA_ADNI12GO.py* and *Code/F6_LRVA_BIOCARD.py*. Once you get access to the root directory, you can run the Python files and get the figures as in the papers. The visualization of the images and segmentations involves mainly two software: [ITK-SNAP](https://www.itksnap.org/pmwiki/pmwiki.php) and [PARAVIEW](https://www.paraview.org/).
 
 ## Imaging data
 
@@ -37,7 +40,7 @@ Diagnoses of the participants in the ADNI dataset are grouped into  Control, whi
 |                     | # Scans              | 4.90 ± 2.05  | 4.12 ± 1.09  | 5.73 ± 1.89  | 4.90 ± 2.29  | 5.06 ± 1.63  | 3.74 ± 0.70  |
 |                     | Scan Range           | 5.69 ± 3.45  | 4.01 ± 2.28  | 3.95 ± 2.70  | 4.87 ± 3.43  | 2.95 ± 2.16  | 1.52 ± 0.91  |
 
-Directories for T1 and PET images after preprocessing in both datasets are summarized in table below, with shape of (170, 256, 256) and resolution $1.2 \times 1 \times 1\ $mm$^3$ for T1 images:
+Directories for T1 and PET images after preprocessing in both datasets are summarized in the table below, with shape of (170, 256, 256) and resolution $1.2 \times 1 \times 1\space mm^3$ for T1 images:
 
 |    Dataset     |               Directory               |                         Description                          |
 | :------------: | :-----------------------------------: | :----------------------------------------------------------: |
