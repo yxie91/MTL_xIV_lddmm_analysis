@@ -7,7 +7,7 @@ This repository contains code for the paper "Rostral Associations of MRI Atrophy
 This repository does not include any imaging data from ADNI or BIOCARD due to data usage agreements. These datasets are publicly available but require registration and approval through their respective portals.
 
 ## Setup
-Please use environment.yml to install required packages. change test
+Please use environment.yml to install required packages.
 
 Codes starting with *Fi_...* mean that Figure i in the paper is generated using the Python files. For example, 6x6 T1 collage is generated from *Code/F1_T1collage.py*; Figure 6 is generated from *Code/F6_LRVA_ADNI12GO.py* and *Code/F6_LRVA_BIOCARD.py*. Once you get access to the root directory, you can run the Python files and get the figures as in the papers. The visualization of the images and segmentations involves mainly two software: [ITK-SNAP](https://www.itksnap.org/pmwiki/pmwiki.php) and [PARAVIEW](https://www.paraview.org/).
 
@@ -48,7 +48,8 @@ For MTL label segmentation, the 3D full-resolution configuration used a $112\tim
 | # Subjects                   | 67   | 107     |
 | # of time points per subject | 4.39 | 3.47    |
 
-For Figure 5, use *Code/F5_overlap_seg.py* to generate the combined version manual and predicted segmentation, we can use ITK-SNAP to visualize with color code *Data/Sheets/itksnap_colorcode.txt*. 
+
+ are weights for nnUNet weights in BIOCARD and ADNI.
 
 
 ## Atrophy calculation
