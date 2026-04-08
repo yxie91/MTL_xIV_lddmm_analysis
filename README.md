@@ -6,10 +6,6 @@ This repository contains code for the paper "Rostral Associations of MRI Atrophy
 ## Data Availability
 This repository does not include any imaging data from ADNI or BIOCARD due to data usage agreements. These datasets are publicly available but require registration and approval through their respective portals.
 
-## Setup
-Please use environment.yml to install required packages.
-
-Codes starting with *Fi_...* mean that Figure i in the paper is generated using the Python files. For example, 6x6 T1 collage is generated from *Code/F1_T1collage.py*; Figure 6 is generated from *Code/F6_LRVA_ADNI12GO.py* and *Code/F6_LRVA_BIOCARD.py*. Once you get access to the root directory, you can run the Python files and get the figures as in the papers. The visualization of the images and segmentations involves mainly two software: [ITK-SNAP](https://www.itksnap.org/pmwiki/pmwiki.php) and [PARAVIEW](https://www.paraview.org/).
 
 ## Imaging data
 
