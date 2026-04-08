@@ -54,7 +54,7 @@ Atrophy rates were calculated for each subject using longitudinal volume estimat
 After converting segmentations to triangulated meshes, we manually cut out inner and outer surface and runs LDDMM to register the inner surface to the outer surface with the additional constraint that the deformation is restricted to the surface normal direction. We used the lengths of the flow lines, provided by each vertex trajectory under the transformation, to define the vertex-wise thickness between the cortical boundaries. The median of the distribution of the vertex-wise thickness was used to attribute a scalar thickness measurement to each ERC/TEC volume. Surfaces from ADNI are generated from manual segmentation, with only left hemisphere; surfaces from BIOCARD come from nnUNet prediction, with Left and right hemispheres cut and gnerated separately. 
 
 
-The code for ERC/TEC surface reconstruction is available in this repository: (MeshLDDMMQP)[https://github.com/kstouff4/MeshLDDMMQP]. Pseudo codes for surface matching:
+The code for ERC/TEC surface reconstruction is available in this repository: [MeshLDDMMQP](https://github.com/kstouff4/MeshLDDMMQP). Pseudo codes:
 ```
 bash Codes/ThicknessCalculations/runSurfaceRegistration.sh -s 0 -i input_path -o output_path -f all
 ```
@@ -69,7 +69,9 @@ To compute volumetric atrophy within amygdala subregions, we employed a two-stag
 
 Following deformation, voxel-wise segmentation masks were reconstructed from the particle representation by interpolating particle-defined anatomical boundaries onto a regular grid and assigning each voxel to the subregion with the highest empirical likelihood. Atrophy rates were computed from the slope of the fitted longitudinal model to the structures.
 
-Code for the subamygdala mapping are summarized below. Follow the steps to get the template substrucutures mapped onto each time point.
+The code for amygdala subnuclei mapping is available in this repository: [projective-lddmm](https://github.com/kstouff4/projective-lddmm). Psudo codes:
+
+
 To convert low-field segmentation into particles,
 
 ```
