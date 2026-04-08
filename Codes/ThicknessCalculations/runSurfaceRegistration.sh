@@ -1,6 +1,6 @@
-#!/bin/bash
-# Example: Codes/ThicknessCalculations/runSurfaceRegistration_ADNI.sh -s 0 -i input_path -o output_path -f all
 
+# Examples:
+# Codes/ThicknessCalculations/runSurfaceRegistration.sh -s 1 -i input_path -o output_path -f all 
 
 while getopts s:i:f:o: flag
 do
@@ -26,11 +26,8 @@ for t in ${fils[*]}; do
     b=${t%top.vtk}bottom.vtk
     bt=$(basename $t)
     od=$outPath${bt%_top.vtk}/
-    #if test -f "${od}evolution20.vtk"; then
-    #    continue
-    #fi
     mkdir -m 777 $od
-    #Change it to the python enviroment you use
-    python3 Codes/ThicknessCalculations/py_lddmm/SurfaceRegistration.py $t $b $od $step
-    python3  -c "from sys import path as sys_path; import vtkFunctions as vt; vt.getThickness('${od}Template.vtk','${od}evolution20.vtk','${od}thickness.vtk');quit()"
+
+    python3 Codes/ThicknessCalculations/py-lddmm1/SurfaceRegistration_originalEdit.py $t $b $od $step
+    python3  -c "from sys import path as sys_path; sys_path.append('Codes/ThicknessCalculations/vtkFunctions.py'); import vtkFunctions as vt; vt.getThickness('${od}Template.vtk','${od}evolution20.vtk','${od}thickness.vtk');quit()"
 done

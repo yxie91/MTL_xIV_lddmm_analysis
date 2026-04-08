@@ -45,9 +45,6 @@ For MTL label segmentation, the 3D full-resolution configuration used a $112\tim
 | # of time points per subject | 4.39 | 3.47    |
 
 
- are weights for nnUNet weights in BIOCARD and ADNI.
-
-
 ## Atrophy calculation
 
 Atrophy rates were calculated for each subject using longitudinal volume estimates derived from region-specific segmentation masks. Volumes were computed by multiplying the number of voxels within each label by the voxel dimensions ($1.0 \times 1.0 \times 1.2 mm^3$). A linear regression model was fitted to each subject's longitudinal volume trajectory to estimate the annualized rate of change, expressed as both absolute volume change ($mm^3$/year) and percent change relative to baseline. Standard deviation of all predicted segmentation in each region (amygdala, ERC/TEC, hippocampus) is calculated, and time points whose regions exceed 2.5 the standard deviation from the group mean within the subject were labeled as outliers and excluded from subsequent analysis. Visual inspection was also performed to remove outliers due to poor image quality.
@@ -57,13 +54,13 @@ Atrophy rates were calculated for each subject using longitudinal volume estimat
 After converting segmentations to triangulated meshes, we manually cut out inner and outer surface and runs LDDMM to register the inner surface to the outer surface with the additional constraint that the deformation is restricted to the surface normal direction. We used the lengths of the flow lines, provided by each vertex trajectory under the transformation, to define the vertex-wise thickness between the cortical boundaries. The median of the distribution of the vertex-wise thickness was used to attribute a scalar thickness measurement to each ERC/TEC volume. Surfaces from ADNI are generated from manual segmentation, with only left hemisphere; surfaces from BIOCARD come from nnUNet prediction, with Left and right hemispheres cut and gnerated separately. 
 
 
-For ERC/TEC surface reconstruction,
+The code for ERC/TEC surface reconstruction is available in this repository: (MeshLDDMMQP)[https://github.com/kstouff4/MeshLDDMMQP]. Pseudo codes for surface matching:
 ```
-bash Codes/ThicknessCalculations/runSurfaceRegistration_ADNI.sh -s 0 -i input_path -o output_path -f all
+bash Codes/ThicknessCalculations/runSurfaceRegistration.sh -s 0 -i input_path -o output_path -f all
 ```
 For population template generation,
 ```
-python3 Codes/ThicknessCalculations/py_lddmm/populationMappings.py
+python3 Codes/ThicknessCalculations/py-lddmm2/populationMappings.py
 ```
 
 ## Subregional Amygdalar Atrophy Coupled to High-Field Atlasing
