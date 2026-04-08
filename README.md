@@ -58,9 +58,13 @@ After converting segmentations to triangulated meshes, we manually cut out inner
 
 
 For ERC/TEC surface reconstruction,
-```bash Codes/ThicknessCalculations/runSurfaceRegistration_ADNI.sh -s 0 -i input_path -o output_path -f all```
+```
+bash Codes/ThicknessCalculations/runSurfaceRegistration_ADNI.sh -s 0 -i input_path -o output_path -f all
+```
 For population template generation,
-```python3 Codes/ThicknessCalculations/py_lddmm/populationMappings.py```
+```
+python3 Codes/ThicknessCalculations/py_lddmm/populationMappings.py
+```
 
 ## Subregional Amygdalar Atrophy Coupled to High-Field Atlasing
 
@@ -70,16 +74,32 @@ Following deformation, voxel-wise segmentation masks were reconstructed from the
 
 Code for the subamygdala mapping are summarized below. Follow the steps to get the template substrucutures mapped onto each time point.
 To convert low-field segmentation into particles,
-```python3 Codes/amygala_subnuclei_analysis/makeLFsegParticles.py```
+
+```
+python3 Codes/amygala_subnuclei_analysis/makeLFsegParticles.py
+```
+
 To convert high-field segmentation into particles (at original resolution or 5x downsampled resolution):
-```python3 Codes/amygala_subnuclei_analysis/makeHFsehParticles.py```
+```
+python3 Codes/amygala_subnuclei_analysis/makeHFsehParticles.py
+```
 Stage 1 mapping with three regions (amygdala, ERC/TEC, Hippocampus) from template to all timepoints:
-```python3 Codes/amygala_subnuclei_analysis/framework_script_HF2LF.py```
+```
+python3 Codes/amygala_subnuclei_analysis/framework_script_HF2LF.py
+```
 Calculate the average momentum and generate subject-specific template within mapped time points:
-```python3 Codes/amygala_subnuclei_analysis/templateGeneration.py```
+```
+python3 Codes/amygala_subnuclei_analysis/templateGeneration.py
+```
 Separate the three regions into three particle files:
-```python3 Codes/amygala_subnuclei_analysis/splitParticles.py```
+```
+python3 Codes/amygala_subnuclei_analysis/splitParticles.py
+```
 Stage 2 mapping where each region is mapped from the subject-specific template to each time point individually:
-```python3 Codes/amygala_subnuclei_analysis/framework_script_HF2LF_Individual.py```
+```
+python3 Codes/amygala_subnuclei_analysis/framework_script_HF2LF_Individual.py
+```
 Transform particles into segmentation by Nearest Neighbour or Gaussian interpolation:
-```Codes/amygala_subnuclei_analysis/makeParticlesToImages.py```
+```
+Codes/amygala_subnuclei_analysis/makeParticlesToImages.py
+```
