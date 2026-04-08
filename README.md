@@ -52,48 +52,15 @@ For MTL label segmentation, the 3D full-resolution configuration used a $112\tim
 
 Atrophy rates were calculated for each subject using longitudinal volume estimates derived from region-specific segmentation masks. Volumes were computed by multiplying the number of voxels within each label by the voxel dimensions ($1.0 \times 1.0 \times 1.2 mm^3$). A linear regression model was fitted to each subject's longitudinal volume trajectory to estimate the annualized rate of change, expressed as both absolute volume change ($mm^3$/year) and percent change relative to baseline. Standard deviation of all predicted segmentation in each region (amygdala, ERC/TEC, hippocampus) is calculated, and time points whose regions exceed 2.5 the standard deviation from the group mean within the subject were labeled as outliers and excluded from subsequent analysis. Visual inspection was also performed to remove outliers due to poor image quality.
 
-Figure 7, 8, 9 is generated using python files below:
-
-| Figure |       Code directory       |                          Decription                          |
-| :----: | :------------------------: | :----------------------------------------------------------: |
-|   7    |  Code/F7_BIOCARD_VAage.py  | Figure 7 left panel, atrophy rate and age in control and MCI/AD groups in BIOCARD |
-|        | Code/F7_BIOCARD_VA_315T.py | Figure 7 right panel, atrophy rate in datasets of different scan resolutions in BIOCARD |
-|        |       Code/F7_bar.py       |                        Bar plot code                         |
-|   8    | Code/F8_ADNI12GO_VA_2g.py  | Figure 8 left panel, atrophy rate and age in control and MCI/AD groups in ADNI 1, 2 & GO |
-|        |  Code/F8_ADNI34_VA_3g.py   | Figure 8 right panel, atrophy rate in control, MCI, and AD groups in ADNI 3, 4 |
-|        |       Code/F8_bar.py       |                        Bar plot code                         |
-
 ## Entorhinal Cortex Reconstruction and Cortical Thickness Calculation
 
-Raw data for the ERC/TEC can be found below. After converting segmentations in meshes, we manually cut out inner and outer surface and runs LDDMM to register the inner surface to the outer surface with the additional constraint that the deformation is restricted to the surface normal direction. We used the lengths of the flow lines, provided by each vertex trajectory under the transformation, to define the vertex-wise thickness between the cortical boundaries. The median of the distribution of the vertex-wise thickness was used to attribute a scalar thickness measurement to each ERC/TEC volume. Surfaces from ADNI are generated from manual segmentation, with only left hemisphere; surfaces from BIOCARD come from nnUNet prediction, with Left and right hemispheres cut and gnerated separately. 
-
-| Dataset |               Directory               |                          Decription                          |
-| :-----: | :-----------------------------------: | :----------------------------------------------------------: |
-|  ADNI   |   Data/ADNI_Surface/cutted_surfaces   |    Cutted inner and outer surfaces and original surfaces     |
-|         |      Data/ADNI_Surface/thickness      |        Calculated thickness of the generated surfaces        |
-|         |                                       |                                                              |
-| BIOCARD |    Data/BIOCARD_Surface/CUT_MCI_LH    | Cutted inner and outer surfaces and original surfaces, Left Hemisphere |
-|         |    Data/BIOCARD_Surface/CUT_MCI_RH    | Cutted inner and outer surfaces and original surfaces, Right Hemisphere |
-|         | Data/BIOCARD_Surface/LH_MCI_thickness | Calculated thickness of the generated surfaces, Left Hemisphere |
-|         | Data/BIOCARD_Surface/RH_MCI_thickness | Calculated thickness of the generated surfaces, Right Hemisphere |
-|         |                                       |                                                              |
+After converting segmentations to triangulated meshes, we manually cut out inner and outer surface and runs LDDMM to register the inner surface to the outer surface with the additional constraint that the deformation is restricted to the surface normal direction. We used the lengths of the flow lines, provided by each vertex trajectory under the transformation, to define the vertex-wise thickness between the cortical boundaries. The median of the distribution of the vertex-wise thickness was used to attribute a scalar thickness measurement to each ERC/TEC volume. Surfaces from ADNI are generated from manual segmentation, with only left hemisphere; surfaces from BIOCARD come from nnUNet prediction, with Left and right hemispheres cut and gnerated separately. 
 
 
-
-Codes for mapping inner surfaces to outer surtfaces and template mapping of population can be found below (Change the input and output direcotry for different datasets):
-
-
-
-|                          Directory                           |                          Decription                          |
-| :----------------------------------------------------------: | :----------------------------------------------------------: |
-|     ThicknessCalculations/runYounesRegistration_ADNI.sh      | run the surface registration by bash ThicknessCalculations/runYounesRegistration_ADNI.sh -s 0 -i Data/ADNI_Surface/cutted_surfaces/ -o Data/ADNI_Surface/mappedsurfaces/ -f all |
-| ThicknessCalculations/population_mapping_scripts/AdniMappings.py |           Population template generation for ADNI            |
-| ThicknessCalculations/population_mapping_scripts/BiocardNarrowMap.py |      Population template generation for BIOCARD narrow       |
-| ThicknessCalculations/population_mapping_scripts/BiocardWideMap.py |       Population template generation for BIOCARD wide        |
-|                    Code/F12_TAVA_ADNI.py                     | Figure 12 right panel, plot volume atrophy vs thickness atrophy rate |
-|                   Code/F12_TAVA_BIOCARD.py                   | Figure 12 left panel, plot volume atrophy vs thickness atrophy rate |
-
-DEBUGGING required for the population template generation codes； No thickness.vtk files generated for the surface registration code (or at the end have't been generated yet).
+For ERC/TEC surface reconstruction,
+`bash Codes/ThicknessCalculations/runSurfaceRegistration_ADNI.sh -s 0 -i input_path -o output_path -f all`
+For population template generation,
+`python3 Codes/ThicknessCalculations/py_lddmm/populationMappings.py`
 
 ## Subregional Amygdalar Atrophy Coupled to High-Field Atlasing
 
@@ -102,28 +69,17 @@ To compute volumetric atrophy within amygdala subregions, we employed a two-stag
 Following deformation, voxel-wise segmentation masks were reconstructed from the particle representation by interpolating particle-defined anatomical boundaries onto a regular grid and assigning each voxel to the subregion with the highest empirical likelihood. Atrophy rates were computed from the slope of the fitted longitudinal model to the structures.
 
 Code for the subamygdala mapping are summarized below. Follow the steps to get the template substrucutures mapped onto each time point.
-
-| Step |                          Directory                           |                          Decription                          |
-| :--: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-|  1   |          ADNImapping/Codes/makeADNIsegParticles.py           |          Convert ADNI segmentations into particles           |
-|  2   |     ADNImapping/Codes/makeHighFieldTemplateParticles.py      | Convert high-field segmentations into particles with 5x downsampling |
-|  3   |   ADNImapping/Codes/framework_script_HighFieldToBIOCARD.py   | Stage 1 mapping with three regions (amygdala, ERC/TEC, Hippocampus) from template to all timepoints |
-|  4   |           ADNImapping/Codes/templateGeneration.py            | Calculate the average momentum and generate subject-specific template within mapped time points |
-|  5   |             ADNImapping/Codes/splitParticles.py              |     Separate the three regions into three particle files     |
-|  6   | ADNImapping/Codes/framework_script_HighFieldToBIOCARDIndividual.py | Stage 2 mapping, each region is mapped from the subject-specific template to each time point individually |
-|  7   |          ADNImapping/Codes/makeParticlesToImages.py          |    Transform particles into segmentation by interpolation    |
-|  8   |             ADNImapping/Codes/VA_mapped_ttest.py             | Calculate the volume atrophy rate of each substructure in amygdala from mapped templates and perform paired t-test |
-|  9   |                  Code/F13_bar_VA_subamy.py                   |                    Bar plot for Figure 13                    |
-
-## Tau hemispheric consistency and Tau-VA calculation
-
- Codes for generating Figure 15 are summarized below:
-
-| Dataset   |             Directory              |                     Decription                     |
-| --------- | :--------------------------------: | :------------------------------------------------: |
-| ADNI 3, 4 |     Code/F15_ADNI34_tauamy.py      | calculate PET accumulation and volume atrophy rate |
-|           | Code/F15_ADNI34_Tauconsistency.py  |          Plot hemishperic tau consistency          |
-|           |      Code/F15_ADNI34_TauVA.py      |    Plot tau accumulation vs volume atrophy rate    |
-| BIOCARD   |     Code/F15_BIOCARD_tauamy.py     | calculate PET accumulation and volume atrophy rate |
-|           | Code/F15_BIOCARD_Tauconsistency.py |          Plot hemishperic tau consistency          |
-|           |     Code/F15_BIOCARD_TauVA.py      |    Plot tau accumulation vs volume atrophy rate    |
+To convert low-field segmentation into particles,
+`python3 Codes/amygala_subnuclei_analysis/makeLFsegParticles.py`
+To convert high-field segmentation into particles (at original resolution or 5x downsampled resolution):
+`python3 Codes/amygala_subnuclei_analysis/makeHFsehParticles.py`
+Stage 1 mapping with three regions (amygdala, ERC/TEC, Hippocampus) from template to all timepoints:
+`python3 Codes/amygala_subnuclei_analysis/framework_script_HF2LF.py`
+Calculate the average momentum and generate subject-specific template within mapped time points:
+`python3 Codes/amygala_subnuclei_analysis/templateGeneration.py`
+Separate the three regions into three particle files:
+`python3 Codes/amygala_subnuclei_analysis/splitParticles.py`
+Stage 2 mapping where each region is mapped from the subject-specific template to each time point individually:
+`python3 Codes/amygala_subnuclei_analysis/framework_script_HF2LF_Individual.py`
+Transform particles into segmentation by Nearest Neighbour or Gaussian interpolation:
+`Codes/amygala_subnuclei_analysis/makeParticlesToImages.py`
