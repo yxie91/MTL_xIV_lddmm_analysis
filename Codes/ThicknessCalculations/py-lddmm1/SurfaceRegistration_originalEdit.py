@@ -101,6 +101,7 @@ def printUsage():
 def runSurfaceMatching(templatePath, targetPath, outDirPath="", flip=False, sigmaDist=5, subDivide=False):
     if outDirPath == "":
         outDirPath = os.path.splitext(templatePath)[0]+"/"
+    print(outDirPath)
     if not os.path.exists(outDirPath): os.makedirs(outDirPath)
 
     fvTarget = surfaces.Surface(targetPath)

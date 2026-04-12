@@ -1,6 +1,8 @@
 
 # Examples:
-# Codes/ThicknessCalculations/runSurfaceRegistration.sh -s 1 -i input_path -o output_path -f all 
+# bash Codes/ThicknessCalculations/runSurfaceRegistration.sh -s 1 -i Data/ADNI_Surface/cutted_surfaces/ -o Data/ADNI_Surface/mappedsurfaces/ -f all 
+# example cutted_sufraces: a_bottom.vtk, a_top.vtk, a.vtk
+
 
 while getopts s:i:f:o: flag
 do
@@ -20,13 +22,13 @@ else
     fils=$(find $inputDir | grep top | grep vtk | grep -v Hold | grep $fil)
 fi
 
-echo $fils
+# echo $fils
 
 for t in ${fils[*]}; do
     b=${t%top.vtk}bottom.vtk
     bt=$(basename $t)
     od=$outPath${bt%_top.vtk}/
-    mkdir -m 777 $od
+    # mkdir -m 777 $od
 
     python3 Codes/ThicknessCalculations/py-lddmm1/SurfaceRegistration_originalEdit.py $t $b $od $step
     python3  -c "from sys import path as sys_path; sys_path.append('Codes/ThicknessCalculations/vtkFunctions.py'); import vtkFunctions as vt; vt.getThickness('${od}Template.vtk','${od}evolution20.vtk','${od}thickness.vtk');quit()"

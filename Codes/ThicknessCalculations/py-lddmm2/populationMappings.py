@@ -1,5 +1,6 @@
 from sys import path as sys_path
 import os
+
 from os.path import split, splitext, isfile
 import glob
 import numpy as np
@@ -17,13 +18,11 @@ from base import loggingUtils
 
 
 
+df = pd.read_csv('Data/ADNI_Surface/demographic_data.csv', index_col=0)
 
-#pseudo inputs and outputs
-
-df = pd.read_csv('/Data/demographic_data.csv', index_col=0)
-inputDir = 'Data/thickness'
-outputDir = 'Data/Population_Surfaces'
-outputH5 = 'Data/Population_Surfaces/ADNIthickness.h5'
+inputDir = 'Data/ADNI_Surface/thickness'
+outputDir = 'Data/ADNI_Surface/Population_Surfaces'
+outputH5 = 'Data/ADNI_Surface/Population_Surfaces/ADNIthickness.h5'
 
 forceRedoInitialData = False
 forceRedoTemplate = False
@@ -53,7 +52,8 @@ if existf5:
 
 doInitialData = True
 if doInitialData:
-    files = glob.glob(inputDir + '/*/*.vtk')
+    files = glob.glob(inputDir + '/*.vtk')#'/*/*.vtk'
+    #print(files)
     data = {'id':[], 'months':[], 'group':[]}
     for name in files:
         dirs = name.split('/')
@@ -68,7 +68,7 @@ if doInitialData:
         
     # Mappings to baseline
     ids = np.unique(data['id'])
-    dataset = {'id':[], 'months':[], 'group':[], 'age':[], 'pts':[], 'faces':[], 'thickness':[]}
+    dataset = {'id':[], 'months':[], 'group':[], 'age':[], 'pts':[], 'faces':[], 'thickness':[]}#build subject-wise dataset
     for idt in ids:
         if (len(idt) < 4):
             id_ = f'{int(idt):04d}'
@@ -90,18 +90,19 @@ if doInitialData:
             else:
                 ages2.append(float(mo[j]))
         dataset['age'].append(ages2)
-
+        
     ## reading thickness
     for k,idt in enumerate(dataset['id']):
         dataset['thickness'].append([])
         dataset['pts'].append([])
         dataset['faces'].append([])
         for j in range(len(dataset['months'][k])):
-            ffile = inputDir +'/' + dataset['group'][k] + '_group/' + idt + '_' + dataset['months'][k][j] + '_thickness.vtk'
+            ffile = inputDir +'/'  + idt + '_' + dataset['months'][k][j] + '_thickness.vtk'#inputDir +'/' + dataset['group'][k] + '_group/' + idt + '_' + dataset['months'][k][j] + '_thickness.vtk'
             pvf = pv.read(ffile)
             pts = np.array(pvf.points)
             faces_ = np.array(pvf.faces, dtype=int)
             nf = faces_.shape[0] // 4
+            #print(pts,faces_,nf)
             faces = np.zeros((nf, 3), dtype=int)
             for k_ in range(nf):
                 faces[k_, :] = faces_[4*k_+1:4*k_+4]
@@ -113,7 +114,7 @@ if doInitialData:
     with h5py.File(outputH5, 'a') as f5:
         if 'initial_data' in f5:
             del f5['initial_data']
-        f5.create_group('initial_data')
+        f5.create_group('initial_data') #create hdf5 group
         for k,idt in enumerate(dataset['id']):
             f5['initial_data'].create_group(idt)
             #f5['initial_data'][id]['group'] = [dataset['group'][k]]
@@ -150,7 +151,7 @@ else:
 #    x = dataset['thickness'][k][0][J]
 
 
-## 
+## Define kernels
 secondOrder = False
 K1 = Kernel(name='laplacian', sigma = 5.0)
 K2 = Kernel(name='gauss', sigma = 5.0)
@@ -180,23 +181,24 @@ if doTemplate:
     }
 
     dataset['betweenBaselinesRigid'] = []
-    bfile = inputDir + '/' + dataset['group'][0] + '_group/' + dataset['id'][0] + '_' + dataset['months'][0][0] + '_thickness.vtk'
+    bfile = inputDir + '/' + dataset['id'][0] + '_' + dataset['months'][0][0] + '_thickness.vtk'#inputDir + '/' + dataset['group'][0] + '_group/' + dataset['id'][0] + '_' + dataset['months'][0][0] + '_thickness.vtk'
+    print(bfile)
     surf0 = Surface(bfile)
     surf = []
     for k,id in enumerate(dataset['id']):
-        bfile = inputDir + '/' + dataset['group'][k] + '_group/' + id + '_' + dataset['months'][k][0] + '_thickness.vtk'
+        bfile = inputDir + '/' + id + '_' + dataset['months'][k][0] + '_thickness.vtk'#inputDir + '/' + dataset['group'][k] + '_group/' + id + '_' + dataset['months'][k][0] + '_thickness.vtk'
         s = Surface(bfile)
-        R0, T0 = rigidRegistration(surfaces = (s.vertices, surf0.vertices),  rotWeight=0., verb=False, temperature=10., annealing=True)
+        R0, T0 = rigidRegistration(surfaces = (s.vertices, surf0.vertices),  rotWeight=0., verb=False, temperature=10., annealing=True)# Rigid alignment between baselines
         dataset['betweenBaselinesRigid'].append([R0, T0])
         #print(R0, T0)
         s.updateVertices(s.vertices @ R0.T + T0)
         #print(bfile)
         surf.append(s)
-    f = SurfaceTemplate(Template=None, Target=surf, options=options)
+    f = SurfaceTemplate(Template=None, Target=surf, options=options) #Compute population average surface
     f.computeTemplate()
     template = Surface(f.fvTmpl)
 
-    with h5py.File(outputH5, 'a') as f5:
+    with h5py.File(outputH5, 'a') as f5:#save template
         if 'template' in f5:
             del f5['template']
         f5.create_group('template')
@@ -236,7 +238,7 @@ dataset['toBaselineRigid'] = []
 dataset['toBaselineTransforms'] = []
 if doToBaseline:
     for k,idt in enumerate(dataset['id']):
-        ffile = inputDir +'/' + dataset['group'][k] + '_group/' + idt + '_' + dataset['months'][k][0] + '_thickness.vtk'
+        ffile = inputDir +'/'  + idt + '_' + dataset['months'][k][0] + '_thickness.vtk'#inputDir +'/' + dataset['group'][k] + '_group/' + idt + '_' + dataset['months'][k][0] + '_thickness.vtk'
         surf = Surface(ffile)
         R0, T0 = rigidRegistration(surfaces = (surf.vertices, template.vertices),  rotWeight=0., verb=False, temperature=10., annealing=True)
         dataset['toBaselineRigid'].append(np.concatenate((R0, T0)))
@@ -245,9 +247,9 @@ if doToBaseline:
         if secondOrder:
             f = SecondOrderSurfaceMatching(Template=template, Target=surf, options=options)
         else:
-            f = SurfaceMatching(Template=template, Target=surf, options=options)
+            f = SurfaceMatching(Template=template, Target=surf, options=options)#Register template to subject baseline
         f.optimizeMatching()
-        dataset['toBaselineTransforms'].append(f.fvDef.vertices)
+        dataset['toBaselineTransforms'].append(f.fvDef.vertices)#deformed subject to each subject
             
     with h5py.File(outputH5, 'a') as f5:
         f5.create_group('to_baseline')
@@ -269,13 +271,13 @@ dataset['inSubjectRigid'] = []
 dataset['inSubjectTransforms'] = []
 if doToFollowups:
     for k,idt in enumerate(dataset['id']):
-        bfile = inputDir + '/' + dataset['group'][k] + '_group/' + idt + '_' + dataset['months'][k][0] + '_thickness.vtk'
+        bfile = inputDir + '/' + idt + '_' + dataset['months'][k][0] + '_thickness.vtk'#inputDir + '/' + dataset['group'][k] + '_group/' + idt + '_' + dataset['months'][k][0] + '_thickness.vtk'
         print(bfile)
         surf0 = Surface(bfile)
         dataset['inSubjectRigid'].append([None])
         dataset['inSubjectTransforms'].append([surf0.vertices])
         for j in range(1,len(dataset['months'][k])):
-            ffile = inputDir +'/' + dataset['group'][k] + '_group/' + idt + '_' + dataset['months'][k][j] + '_thickness.vtk'
+            ffile = inputDir +'/' + idt + '_' + dataset['months'][k][j] + '_thickness.vtk'#inputDir +'/' + dataset['group'][k] + '_group/' + idt + '_' + dataset['months'][k][j] + '_thickness.vtk'
             print(ffile)
             surf = Surface(ffile)
             R0, T0 = rigidRegistration(surfaces = (surf.vertices, surf0.vertices),  rotWeight=0., verb=False, temperature=10., annealing=True)
@@ -313,7 +315,7 @@ else:
                 dataset['inSubjectTransforms'][k].append(np.array(f5['to_followups'][idt][m]['vertices']))
 
 
-### Aligning thickness
+### Aligning thickness: LDDMM ARE NOT USED, ONLY ROTATION AND TRANSLATION ARE USED
 
 #From follow-ups to baselines
 dataset['f2b_thickness'] = []
@@ -322,8 +324,8 @@ for k, idt in enumerate(dataset['id']):
     for j in range(1,len(dataset['months'][k])):
         R0 = dataset['inSubjectRigid'][k][j][:-1, :]
         T0 = dataset['inSubjectRigid'][k][j][-1, :]
-        tree = KDTree(dataset['pts'][k][j]@R0.T + T0)
-        dd, J = tree.query(dataset['pts'][k][0])
+        tree = KDTree(dataset['pts'][k][j]@R0.T + T0)#maps follow-up thickness onto baseline surface using nn interpolation
+        dd, J = tree.query(dataset['pts'][k][0])#at the baseline's vertexes
         dataset['f2b_thickness'][k].append(dataset['thickness'][k][j][J])
 
 
@@ -335,8 +337,8 @@ for k, idt in enumerate(dataset['id']):
         R0 = dataset['toBaselineRigid'][k][:-1, :]
         T0 = dataset['toBaselineRigid'][k][-1, :]
         tree = KDTree(dataset['pts'][k][0]@R0.T + T0)
-        dd, J = tree.query(template.vertices)
-        dataset['b2t_thickness'][k].append(dataset['f2b_thickness'][k][j][J])
+        dd, J = tree.query(template.vertices)#at the subject-generated vertexes
+        dataset['b2t_thickness'][k].append(dataset['f2b_thickness'][k][j][J])#stores the subjects' thickness at different tp above interpolated on the template coordinates
 
 print('Saving thickness maps')
 with h5py.File(outputH5, 'a') as f5:
@@ -352,3 +354,4 @@ with h5py.File(outputH5, 'a') as f5:
             f5['thickness_maps'][idt]['b2t'].create_dataset(m, data = dataset['b2t_thickness'][k][j]) 
             f5['thickness_maps'][idt]['f2b'].create_dataset(m, data = dataset['f2b_thickness'][k][j]) 
             
+#Can be used to compute mean_thickness = np.mean(all_subjects_all_timepoints, axis=0) for different groups and compare
