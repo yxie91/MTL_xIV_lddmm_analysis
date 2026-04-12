@@ -56,7 +56,7 @@ After converting segmentations to triangulated meshes, we manually cut out inner
 
 The code for ERC/TEC surface reconstruction is available in this repository: [MeshLDDMMQP](https://github.com/kstouff4/MeshLDDMMQP). Pseudo codes:
 ```
-bash Codes/ThicknessCalculations/runSurfaceRegistration.sh -s 0 -i input_path -o output_path -f all
+bash Codes/ThicknessCalculations/runSurfaceRegistration.sh -s 1 -i Data/ADNI_Surface/cutted_surfaces/ -o Data/ADNI_Surface/mappedsurfaces/ -f all 
 ```
 For population template generation,
 ```
